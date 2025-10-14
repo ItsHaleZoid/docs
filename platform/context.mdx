@@ -1,0 +1,116 @@
+---
+title: "Context"
+description: "Add context to your AI agents to connect and share their conversations with another. So that you can use each of them simultaneously together!"
+icon: "messages"
+---
+
+## Overview
+
+Context allows you to store conversation history and share it between different AI agents. This enables seamless collaboration where one AI agent can pick up where another left off, maintaining continuity across your workflow.
+
+## 1. Add Context
+
+Tell your agent to use `asimov-mcp` to add previous conversations to the context.
+
+### Example Request
+
+```text User Prompt
+All the jargon we've done, add it to context using asimov-mcp.
+```
+
+### Response
+
+```json API Response
+{
+  "success": true,
+  "content": "1. User: I think therefore I am.\n2. 
+  AI: Nope, I THINK, therefore I AM. Keep Thinking.\n3. 
+  User: No, Think Different.",
+  "message": "Context added successfully"
+}
+```
+
+<Tip>
+The context system stores the raw conversation content, allowing you to retrieve it later when switching between AI agents or sessions.
+</Tip>
+
+## 2. Search/Get Context
+
+Retrieves the latest stored contexts with a `limit` parameter to control how many results to show.
+
+### Example Request
+
+```text User Prompt
+Get the latest 5 contexts we've stored using asimov-mcp.
+```
+
+### Response
+
+```json AI Agent
+
+Sure! Let me do it...
+
+{
+  "success": true,
+  "message": "Found 3 context(s)",
+  "content": "1. Date: 2025-10-14T10:00:00.000Z\n   Content: User: I think therefore I am.\n   
+  Created: 2025-10-13T20:18:04.115Z\n\n2.
+   Date: 2025-10-14T09:30:00.000Z\n   Content: AI:  Nope, I THINK, therefore I AM. Keep Thinking.\n   
+   Created: 2025-10-13T19:45:00.000Z\n\n3. 
+   Date: 2025-10-14T09:00:00.000Z\n   Content: User: No, Think Different.\n   
+   Created: 2025-10-13T19:20:00.000Z"
+}
+
+Quite a strange context for programming...
+```
+
+## Use Cases
+
+### Cross-Agent Collaboration
+
+```text Scenario
+You're working with Claude Code to build a feature, then switch to Cursor
+to test it. Both agents can access the same context about what was discussed
+and implemented.
+```
+
+### Session Continuity
+
+```text Scenario
+Start a conversation in the morning about architecture decisions, then
+resume in the afternoon with full context of what was discussed earlier.
+```
+
+
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Store Important Decisions" icon="bookmark">
+    Add context after making architectural or design decisions
+  </Card>
+  <Card title="Include Dates" icon="calendar">
+    The system automatically timestamps contexts for chronological tracking
+  </Card>
+  <Card title="Clear Content" icon="message">
+    Store clear, complete conversation snippets for better retrieval
+  </Card>
+  <Card title="Regular Retrieval" icon="refresh">
+    Check stored contexts when switching agents or sessions
+  </Card>
+</CardGroup>
+
+## • Difference from Memory
+
+
+| Feature | Context | Memory |
+|---------|---------|---------|
+| Purpose | Store raw conversations | Extract and store facts |
+| Processing | No processing, stored as-is | AI extracts key information |
+| Use Case | Session continuity | Long-term preferences |
+| Retrieval | Date-ordered list | Semantic search |
+| Content | Full conversation snippets | Atomic facts |
+
+<Info>
+Use **Context** for maintaining conversation flow across sessions, and **Memory** for storing long-term facts and preferences.
+</Info>

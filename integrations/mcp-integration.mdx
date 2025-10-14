@@ -1,0 +1,238 @@
+---
+title: "MCP Integration"
+description: "Configure your AI coding assistant with Asimov MCP"
+icon: plug
+---
+
+### Connect Asimov MCP to your AI assistant
+
+Choose your preferred AI coding assistant and follow the configuration steps:
+
+<Tabs>
+  <Tab title="Claude Code">
+    Run the following command to add Asimov MCP:
+
+    ```bash
+    claude mcp add --transport stdio asimov \
+      --env API_KEY=your-api-key-here \
+      --env API_URL=https://asimov.mov \
+      -- npx -y asimov-mcp
+    ```
+
+    Replace `your-api-key-here` with your API key from [asimov.mov/settings/api](https://asimov.mov/settings/api).
+  </Tab>
+
+  <Tab title="Cursor">
+    Add the following configuration to your Cursor MCP settings file:
+
+    **macOS/Linux:** `~/.cursor/mcp.json`
+    **Windows:** `%APPDATA%\Cursor\mcp.json`
+
+    ```json
+    {
+      "mcpServers": {
+        "asimov": {
+          "command": "npx",
+          "args": ["-y", "asimov-mcp"],
+          "env": {
+            "API_KEY": "your-api-key-here",
+            "API_URL": "https://asimov.mov"
+          }
+        }
+      }
+    }
+    ```
+
+    Replace `your-api-key-here` with your API key from [asimov.mov/settings/api](https://asimov.mov/settings/api).
+  </Tab>
+
+  <Tab title="Windsurf">
+    Add the following configuration to your Windsurf MCP settings:
+
+    **macOS:** `~/Library/Application Support/Windsurf/mcp.json`
+    **Linux:** `~/.config/Windsurf/mcp.json`
+    **Windows:** `%APPDATA%\Windsurf\mcp.json`
+
+    ```json
+    {
+      "mcpServers": {
+        "asimov": {
+          "command": "npx",
+          "args": ["-y", "asimov-mcp"],
+          "env": {
+            "API_KEY": "your-api-key-here",
+            "API_URL": "https://asimov.mov"
+          }
+        }
+      }
+    }
+    ```
+
+    Replace `your-api-key-here` with your API key from [asimov.mov/settings/api](https://asimov.mov/settings/api).
+  </Tab>
+
+  <Tab title="Codex">
+    Add the following configuration to your Codex config file:
+
+    **macOS/Linux:** `~/.codex/config.toml`
+    **Windows:** `%USERPROFILE%\.codex\config.toml`
+
+    ```toml
+    [mcp_servers.asimov]
+    command = "npx"
+    args = ["-y", "asimov-mcp"]
+    env = { "API_KEY" = "your-api-key-here", "API_URL" = "https://asimov.mov" }
+    ```
+
+    Replace `your-api-key-here` with your API key from [asimov.mov/settings/api](https://asimov.mov/settings/api).
+  </Tab>
+</Tabs>
+
+<Note>
+  After adding the configuration, restart your AI coding assistant to load the MCP server.
+</Note>
+
+## Project-Level Configuration
+
+Add project-specific instructions that your AI assistant will automatically follow when working in your repository.
+
+<Tabs>
+  <Tab title="Claude Code">
+    Create a `CLAUDE.md` file in your project root:
+
+    ```markdown CLAUDE.md
+    # Project Instructions
+
+    Always use Asimov MCP tools for this project:
+
+    - Store important architectural decisions to memory
+    - Search memories before making similar changes
+    - Add conversation context when switching between features
+    - Use web search to find up-to-date documentation
+    ```
+
+    <Note>
+      Claude Code automatically reads `CLAUDE.md` when working in your repository.
+    </Note>
+  </Tab>
+
+  <Tab title="Cursor">
+    Create a `.cursorrules` file or `.cursor/rules.md` in your project root:
+
+    ```markdown .cursorrules
+    # Project Instructions
+
+    Always use Asimov MCP tools for this project:
+
+    - Store important architectural decisions to memory
+    - Search memories before making similar changes
+    - Add conversation context when switching between features
+    - Use web search to find up-to-date documentation
+    ```
+
+    <Note>
+      Cursor automatically reads `.cursorrules` or `.cursor/rules.md` when working in your repository.
+    </Note>
+  </Tab>
+
+  <Tab title="Windsurf">
+    Create a `.windsurfrules` file in your project root:
+
+    ```markdown .windsurfrules
+    # Project Instructions
+
+    Always use Asimov MCP tools for this project:
+
+    - Store important architectural decisions to memory
+    - Search memories before making similar changes
+    - Add conversation context when switching between features
+    - Use web search to find up-to-date documentation
+    ```
+
+    <Note>
+      Windsurf automatically reads `.windsurfrules` when working in your repository.
+    </Note>
+  </Tab>
+
+  <Tab title="Codex">
+    Create a `.codexignore` or add instructions to your existing project documentation:
+
+    ```markdown .codexignore
+    # Project Instructions
+
+    Always use Asimov MCP tools for this project:
+
+    - Store important architectural decisions to memory
+    - Search memories before making similar changes
+    - Add conversation context when switching between features
+    - Use web search to find up-to-date documentation
+    ```
+
+    <Note>
+      Codex reads project context from your documentation files when working in your repository.
+    </Note>
+  </Tab>
+</Tabs>
+
+## Example Project Instructions
+
+Here's a more detailed example for a documentation project:
+
+```markdown
+# Asimov MCP Integration
+
+Use Asimov MCP tools throughout this project:
+
+## Memory Management
+- Store design decisions and technical choices
+- Search memories before implementing similar features
+- Update memories when requirements change
+
+## Context Management
+- Add conversation context after major discussions
+- Search context when picking up previous work
+- Share context with team members
+
+## Source Management
+- Index external documentation we reference frequently
+- Search indexed sources before adding new dependencies
+- Use web search to verify latest API versions
+
+## Project-Specific Guidelines
+- Always check existing patterns in memories before creating new ones
+- Document API integrations in memories for future reference
+- Save troubleshooting solutions to help the team
+```
+
+## Benefits
+
+<CardGroup cols={2}>
+  <Card title="Memory" icon="brain">
+    Store and retrieve decisions across sessions
+  </Card>
+  <Card title="Context" icon="messages">
+    Share conversation history with your team
+  </Card>
+  <Card title="Sources" icon="book">
+    Index and search external documentation
+  </Card>
+  <Card title="Web Search" icon="globe">
+    Find repos and docs instantly
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="MCP server not connecting">
+  - Verify the API key in your MCP configuration
+  - Restart your AI assistant after configuration changes
+  - Check that `npx` is available in your PATH
+</Accordion>
+
+<Accordion title="Tools not appearing">
+  - Ensure you've restarted your assistant after adding the configuration
+  - Check the assistant's console/logs for error messages
+  - Verify the configuration file is in the correct location
+</Accordion>
+</AccordionGroup>

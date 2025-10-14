@@ -1,0 +1,82 @@
+---
+title: 'Memory'
+description: 'Add memory into your agents, so the remember what the heck they were told before.'
+icon: 'brain'
+---
+
+<img
+  style={{ borderRadius: '1.5rem' }}
+  src="/memory.png"
+/>
+
+## 1. Store
+
+You can ask your agent to store the important points to memory and the MCP would autmoatically choose, which is relevent or not.
+
+#### Example
+```json User Prompt
+Add the previous point to memory and save it using asimov-mcp.
+```
+
+#### Response
+```json AI Agent
+
+Absolutely, let me do it.
+
+  {
+    "success": true,
+    "results": [
+      {
+        "memory": "Prefers using TypeScript with strict mode enabled for 
+        all projects",
+      },
+      {
+        "memory": "Likes using Tailwind CSS for styling",
+      },
+      {
+        "memory": "Uses Next.js 14 with the App Router",
+      }
+    ],
+    "message": "Stored 3 memory items"
+  }
+
+```
+
+
+## 2. Search
+
+You can add instructions in `CLAUDE.md` (for Claude Code), `.cursor/rules.md` (For Cursor) or `.windsurfrules.md` (For Windsurf) to retrieve and search for memories that are related to your query, either occasionaly or on important moments.
+
+#### Example
+```json User Prompt
+I think we've done the implementation of @dropdown.tsx 
+before in another project, can we use that?
+```
+
+#### Response
+
+```json AI Agent
+
+*Searches for memories*
+
+  Absolutely we can use it! Here it is:
+  ...
+```
+
+## 3. Update
+
+If a new thing happens and it contradicts or imples an update on the previously stored `memory`, then it can be instrctued to "update" that specific memory for up-to-date retrieval.
+
+#### Example
+```json User Prompt
+Alright, Now that we've updated the dropdown.tsx, 
+update the memory using asimov-mcp, so we stay up-to-date!
+```
+
+#### Response
+
+```json AI Agent
+
+You're definitely right! Let me update it!
+  ...
+```

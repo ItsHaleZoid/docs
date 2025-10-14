@@ -1,0 +1,19 @@
+/* Remove grey background from custom icons */
+.nav-icon {
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+.nav-icon svg {
+  background: transparent !important;
+}
+
+/* Alternative selectors that might work */
+[data-testid="nav-icon"] {
+  background: transparent !important;
+}
+
+.navigation-icon {
+  background: transparent !important;
+}
+

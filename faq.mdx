@@ -1,0 +1,180 @@
+---
+title: "FAQ"
+description: "Frequently asked questions about Asimov MCP"
+icon: circle-question
+---
+
+## Getting Started
+
+<AccordionGroup>
+<Accordion title="What is Asimov?">
+  Asimov is a platform that enhances your AI coding assistant by providing it additional tools for memory management, context storage, source indexing, and web search capabilities.
+</Accordion>
+
+<Accordion title="How do I get started with Asimov?">
+  To get started with Asimov:
+  1. Sign up at [Asimov](https://asimov.mov)
+  2. Generate an API key from your settings
+  3. Configure your AI assistant (Claude Code, Cursor, or Windsurf) with the MCP server
+  4. Start using Asimov tools in your workflow
+
+  See our [Quickstart guide](/quickstart) for detailed instructions.
+</Accordion>
+</AccordionGroup>
+
+## Memory Management
+
+<AccordionGroup>
+<Accordion title="What can I store in memories?">
+  You can store:
+  - Almost anything that you think would help your code assistant in future to make better decisions.
+  - You can instruct your code assistant to store them, when a specific type of scenario has happened.
+</Accordion>
+
+<Accordion title="How do I search my memories?">
+  Simply ask your AI assistant to search for relevant information. For example:
+  - "Search memories for authentication patterns"
+  - "Find previous decisions about database schema"
+    The assistant will automatically use Asimov's search tool to retrieve relevant memories.
+  - "You can also see and manage all your memories collectivey in [Memories](https://asimov.mov/dashboard/memories).
+
+</Accordion>
+
+<Accordion title="Can I update existing memories?">
+  Yes! When requirements change or you need to update information, ask your assistant to update the memory. The system will find the relevant memory and update it with new information.
+</Accordion>
+</AccordionGroup>
+
+## Context Management
+
+<AccordionGroup>
+<Accordion title="How does context storage work?">
+  Context storage allows you to save conversation history with timestamps. This is useful for:
+  - Sharing conversations between different coding agents (Cursor, Claude Code, Codex, etc)
+  - Continuing work across different sessions
+</Accordion>
+
+
+</AccordionGroup>
+
+## Source Management
+
+<AccordionGroup>
+<Accordion title="What sources can I index?">
+  You can index:
+  - Documentation websites (e.g., framework docs, API references)
+  - GitHub repositories (view structure and search code)
+</Accordion>
+
+<Accordion title="How do I index documentation?">
+  Ask your assistant to index a documentation site:
+  ```
+  "Index the Supabase docs at https://supabase.com/docs" 
+  or "Index Supabase docs"
+  ```
+
+  Once indexed, you can search the documentation without leaving your editor.
+</Accordion>
+
+<Accordion title="Can I view GitHub repository structure?">
+  Yes! Use the packages view tool to see the file structure of any GitHub repository:
+  ```
+  "Show me the file structure of the socket.io GitHub repo"
+  ```
+
+  This helps your agent and you to understand the repository tree structure, before indexing it.
+</Accordion>
+</AccordionGroup>
+
+## Web Search
+
+<AccordionGroup>
+<Accordion title="How does web search work?">
+  Asimov's web search tool allows your AI assistant to find up-to-date information, documentation, and GitHub repositories in real-time. It's useful for:
+  - Finding latest API versions
+  - Discovering new libraries
+  - Verifying documentation
+</Accordion>
+
+<Accordion title="What can I search for?">
+  You can search for:
+  - Documentation and tutorials
+  - GitHub repositories
+  - Code examples
+  - Technical articles
+  - API references
+</Accordion>
+</AccordionGroup>
+
+## Billing & Usage
+
+<AccordionGroup>
+<Accordion title="How does Asimov pricing work?">
+  Asimov offers flexible pricing based on your usage needs. Visit our [pricing page](https://asimov.mov/pricing) for detailed information about plans and features.
+</Accordion>
+
+<Accordion title="Are there usage limits?">
+  Usage limits depend on your subscription plan. You can monitor your usage in your account dashboard at [Dashboard](https://asimov.mov/dashboard).
+</Accordion>
+
+<Accordion title="Can I upgrade or downgrade my plan?">
+  Yes! You can change your subscription plan at any time from your account settings.
+</Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="MCP server is not connecting">
+  Common solutions:
+  - Verify your API key is correct in the configuration
+  - Restart your AI assistant after adding the configuration
+  - Check that `npx` is available in your PATH
+  - Ensure you have an active internet connection
+  - Check the assistant's console/logs for error messages
+</Accordion>
+
+<Accordion title="Tools are not appearing in my assistant">
+  If Asimov tools aren't showing up:
+  1. Verify the configuration file is in the correct location:
+     - Claude Code: `~/.config/claude/claude_desktop_config.json`
+     - Cursor: `~/.cursor/mcp.json`
+     - Windsurf: `~/Library/Application Support/Windsurf/mcp.json` (macOS)
+     - Codex: `~/.codex/config.toml`
+  2. Check the configuration syntax is correct (valid JSON for Claude/Cursor/Windsurf, valid TOML for Codex)
+  3. Restart your assistant completely
+  4. Check for error messages in the logs
+</Accordion>
+
+<Accordion title="API key errors">
+  If you're getting API key errors:
+  - Generate a new API key from [asimov.mov/settings/api](https://asimov.mov/settings/api)
+  - Update your MCP configuration with the new key
+  - Ensure there are no extra spaces or quotes in the API key
+  - Restart your assistant after updating the configuration
+</Accordion>
+
+<Accordion title="Search results are not relevant">
+  To get better search results:
+  - Be more specific in your queries
+  - Use technical terms and keywords
+  - Include context about what you're looking for
+  - Try rephrasing your question
+</Accordion>
+
+<Accordion title="Codex-specific issues">
+  If you're using Codex and experiencing issues:
+  - Ensure the config file is valid TOML format (not JSON)
+  - Check that environment variables are properly formatted: `env = { "KEY" = "value" }`
+  - Verify the Codex CLI is up to date: `codex --version`
+  - Use `codex mcp list` to verify the server is properly configured
+  - Check startup logs with increased verbosity if available
+</Accordion>
+</AccordionGroup>
+
+## Still need help?
+
+Can't find what you're looking for?
+
+- Check our [Documentation](https://docs.asimov.mov) for detailed guides
+- Contact at [hamza@asimov.mov](mailto:hamza@asimov.mov)
