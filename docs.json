@@ -28,7 +28,8 @@
               "platform/web_search",
               "platform/sources",
               "platform/memory",
-              "platform/context"
+              "platform/context",
+              "platform/files"
             ]
           },
           {

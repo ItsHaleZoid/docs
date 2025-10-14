@@ -1,0 +1,94 @@
+---
+title: 'Files'
+description: 'Store and manage files within your agents for easy access and retrieval.'
+icon: 'file'
+---
+
+## 1. Add Files
+
+Store files with a name, description, and content for later retrieval.
+
+#### Example
+```json User Prompt
+Save this configuration file to memory using asimov-mcp.
+```
+
+#### Response
+```json AI Agent
+
+I'll save this file for you.
+
+  {
+    "success": true,
+    "message": "Successfully added file: config.json [ID: 123]",
+    "file": {
+      "id": 123,
+      "name": "config.json",
+      "description": "Application configuration settings",
+      "content": "{ ... }",
+      "created_at": "2024-03-15T10:30:00Z"
+    }
+  }
+
+```
+
+## 2. List Files
+
+View all your stored files with their names and descriptions.
+
+#### Example
+```json User Prompt
+Show me all my saved files using asimov-mcp.
+```
+
+#### Response
+
+```json AI Agent
+
+Here are your files:
+
+  {
+    "success": true,
+    "message": "Found 3 file(s):\n\n- config.json (Application configuration) [ID: 123]\n- api-keys.txt (API keys backup) [ID: 124]\n- notes.md (Project notes) [ID: 125]",
+    "files": [...],
+    "count": 3
+  }
+```
+
+## 3. Search Files
+
+Search for files by name or description to quickly find what you need.
+
+#### Example
+```json User Prompt
+Find my configuration files using asimov-mcp.
+```
+
+#### Response
+
+```json AI Agent
+
+Found the configuration files:
+
+  {
+    "success": true,
+    "message": "Found 2 file(s) matching your search",
+    "files": [
+      {
+        "id": 123,
+        "name": "config.json",
+        "description": "Application configuration settings",
+        "content": "{ ... }",
+        "created_at": "2024-03-15T10:30:00Z"
+      },
+      {
+        "id": 126,
+        "name": "database-config.yml",
+        "description": "Database configuration",
+        "content": "...",
+        "created_at": "2024-03-16T14:20:00Z"
+      }
+    ],
+    "count": 2
+  }
+```
