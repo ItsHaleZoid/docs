@@ -22,28 +22,6 @@ icon: circle-question
 </Accordion>
 </AccordionGroup>
 
-## Memory Management
-
-<AccordionGroup>
-<Accordion title="What can I store in memories?">
-  You can store:
-  - Almost anything that you think would help your code assistant in future to make better decisions.
-  - You can instruct your code assistant to store them, when a specific type of scenario has happened.
-</Accordion>
-
-<Accordion title="How do I search my memories?">
-  Simply ask your AI assistant to search for relevant information. For example:
-  - "Search memories for authentication patterns"
-  - "Find previous decisions about database schema"
-    The assistant will automatically use Asimov's search tool to retrieve relevant memories.
-  - "You can also see and manage all your memories collectivey in [Memories](https://asimov.mov/dashboard/memories).
-
-</Accordion>
-
-<Accordion title="Can I update existing memories?">
-  Yes! When requirements change or you need to update information, ask your assistant to update the memory. The system will find the relevant memory and update it with new information.
-</Accordion>
-</AccordionGroup>
 
 ## Context Management
 
@@ -77,9 +55,18 @@ icon: circle-question
 </Accordion>
 
 <Accordion title="Can I view GitHub repository structure?">
-  Yes! Use the packages view tool to see the file structure of any GitHub repository:
+  Yes! Use the repository view tool to see the file structure of any GitHub repository:
   ```
   "Show me the file structure of the socket.io GitHub repo"
+  ```
+
+  This helps your agent and you to understand the repository tree structure, before indexing it.
+</Accordion>
+
+<Accordion title="Can my agent read from specific repository file?">
+  Yes! Use the repository select tool to read the content of a specific file in a repository:
+  ```
+  "Read the content of "Field" component from shadcn-ui/ui and implpement it with our OWN colorful branding."
   ```
 
   This helps your agent and you to understand the repository tree structure, before indexing it.
@@ -154,22 +141,8 @@ icon: circle-question
   - Restart your assistant after updating the configuration
 </Accordion>
 
-<Accordion title="Search results are not relevant">
-  To get better search results:
-  - Be more specific in your queries
-  - Use technical terms and keywords
-  - Include context about what you're looking for
-  - Try rephrasing your question
-</Accordion>
 
-<Accordion title="Codex-specific issues">
-  If you're using Codex and experiencing issues:
-  - Ensure the config file is valid TOML format (not JSON)
-  - Check that environment variables are properly formatted: `env = { "KEY" = "value" }`
-  - Verify the Codex CLI is up to date: `codex --version`
-  - Use `codex mcp list` to verify the server is properly configured
-  - Check startup logs with increased verbosity if available
-</Accordion>
+
 </AccordionGroup>
 
 ## Still need help?

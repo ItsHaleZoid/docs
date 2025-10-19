@@ -88,9 +88,9 @@ Choose your preferred AI coding assistant and follow the configuration steps:
   </Tab>
 </Tabs>
 
-<Note>
+<Info>
   After adding the configuration, restart your AI coding assistant to load the MCP server.
-</Note>
+</Info>
 
 ## Project-Level Configuration
 
@@ -111,9 +111,9 @@ Add project-specific instructions that your AI assistant will automatically foll
     - Use web search to find up-to-date documentation
     ```
 
-    <Note>
+    <Info>
       Claude Code automatically reads `CLAUDE.md` when working in your repository.
-    </Note>
+    </Info>
   </Tab>
 
   <Tab title="Cursor">
@@ -130,9 +130,9 @@ Add project-specific instructions that your AI assistant will automatically foll
     - Use web search to find up-to-date documentation
     ```
 
-    <Note>
+    <Info>
       Cursor automatically reads `.cursorrules` or `.cursor/rules.md` when working in your repository.
-    </Note>
+    </Info>
   </Tab>
 
   <Tab title="Windsurf">
@@ -149,13 +149,13 @@ Add project-specific instructions that your AI assistant will automatically foll
     - Use web search to find up-to-date documentation
     ```
 
-    <Note>
+    <Info>
       Windsurf automatically reads `.windsurfrules` when working in your repository.
-    </Note>
+    </Info>
   </Tab>
 
   <Tab title="Codex">
-    Create a `.codexignore` or add instructions to your existing project documentation:
+    Create an `AGENTS.md` and add instructions for codex:
 
     ```markdown .codexignore
     # Project Instructions
@@ -168,41 +168,13 @@ Add project-specific instructions that your AI assistant will automatically foll
     - Use web search to find up-to-date documentation
     ```
 
-    <Note>
-      Codex reads project context from your documentation files when working in your repository.
-    </Note>
+    <Info>
+      Codex reads instructions automatically from  `AGENTS.md`
+    </Info>
   </Tab>
 </Tabs>
 
-## Example Project Instructions
 
-Here's a more detailed example for a documentation project:
-
-```markdown
-# Asimov MCP Integration
-
-Use Asimov MCP tools throughout this project:
-
-## Memory Management
-- Store design decisions and technical choices
-- Search memories before implementing similar features
-- Update memories when requirements change
-
-## Context Management
-- Add conversation context after major discussions
-- Search context when picking up previous work
-- Share context with team members
-
-## Source Management
-- Index external documentation we reference frequently
-- Search indexed sources before adding new dependencies
-- Use web search to verify latest API versions
-
-## Project-Specific Guidelines
-- Always check existing patterns in memories before creating new ones
-- Document API integrations in memories for future reference
-- Save troubleshooting solutions to help the team
-```
 
 ## Benefits
 
@@ -236,3 +208,6 @@ Use Asimov MCP tools throughout this project:
   - Verify the configuration file is in the correct location
 </Accordion>
 </AccordionGroup>
+
+You can also contact at **hamza@asimov.mov** 
+(I would personally solve the issue under an hour!)

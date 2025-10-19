@@ -27,7 +27,6 @@
             "pages": [
               "platform/web_search",
               "platform/sources",
-              "platform/memory",
               "platform/context",
               "platform/files"
             ]
