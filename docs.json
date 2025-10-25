@@ -27,8 +27,7 @@
             "pages": [
               "platform/web_search",
               "platform/sources",
-              "platform/context",
-              "platform/files"
+              "platform/context"
             ]
           },
           {
@@ -63,8 +62,12 @@
     }
   },
   "logo": {
-    "light": "/logo/asimov-dark.png",
-    "dark": "/logo/asimov.png"
+    "light": "/logo/asimov-text-black.png",
+    "dark": "/logo/asimov-text-white.png",
+    "dimensions": {
+      "width": 100,
+      "height": 100
+    }
   },
   "navbar": {
     "links": [
