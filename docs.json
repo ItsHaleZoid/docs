@@ -50,17 +50,7 @@
             "pages": [
               "api-reference/introduction",
               "POST /sources/content/add",
-              "POST /sources/content/search",
-              "GET /sources/content/get",
-              "GET /sources/content/get/tokens",
-              "POST /sources/param/add",
-              "GET /sources/param/get",
-              "PUT /sources/param/manage",
-              "DELETE /sources/param/manage",
-              "POST /keys/create",
-              "GET /keys/list",
-              "GET /sources/stats",
-              "GET /usage/status"
+              "POST /sources/content/search"
             ]
           },
           {
