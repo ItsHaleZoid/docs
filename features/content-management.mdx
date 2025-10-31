@@ -4,7 +4,7 @@ description: "Learn how to add, search, and manage content"
 icon: files
 ---
 
-Asimov provides powerful content management capabilities with automatic chunking, embedding generation, and semantic search.
+Asimov provides powerful content management capabilities with automatic chunking, embedding generation, and semantic search accessible via API keys.
 
 ## Adding Content
 
@@ -100,34 +100,13 @@ curl -X POST https://asimov.mov/api/sources/content/search \
 - `query` (required): The search query text
 - `limit` (optional): Maximum results to return (default: 10, max: 100)
 - `id` (optional): Filter by specific document ID
-- `params` (optional): Filter by metadata parameters
+- `params` (optional): Filter by metadata parameters (must be created in dashboard first)
 - `recall` (optional): Number of candidates before filtering (default: 100)
-
-## Retrieving Documents
-
-### List All Documents
-
-```bash
-curl -X GET https://asimov.mov/api/sources/content/get \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-
-Returns all documents with their content, metadata, and creation dates.
-
-### Get Token Counts
-
-```bash
-curl -X GET https://asimov.mov/api/sources/content/get/tokens \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-
-Returns documents with token counts instead of content, useful for monitoring usage.
 
 ## Best Practices
 
 1. **Use Descriptive Names**: Provide meaningful names for your documents
-2. **Organize with Parameters**: Use metadata parameters to organize and filter content
-3. **Monitor Token Usage**: Check token counts regularly to stay within limits
+2. **Organize with Parameters**: Use metadata parameters (created in dashboard) to organize and filter content
+3. **Monitor Usage**: Check your usage limits to stay within your subscription tier
 4. **Optimize Chunk Size**: Content is automatically chunked, but longer documents may benefit from explicit structure
 5. **Filter When Possible**: Use parameters to narrow search results and improve relevance
-

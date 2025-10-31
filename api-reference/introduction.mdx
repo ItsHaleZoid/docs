@@ -4,7 +4,7 @@ description: "Complete API reference for Asimov"
 icon: code
 ---
 
-Welcome to the Asimov API reference. This documentation provides detailed information about all available endpoints, request/response formats, and code examples.
+Welcome to the Asimov API reference. This documentation provides detailed information about all available endpoints accessible via API keys, request/response formats, and code examples.
 
 ## Base URL
 
@@ -16,7 +16,7 @@ https://asimov.mov/api
 
 ## Authentication
 
-All API requests require authentication using Bearer tokens. See the [Authentication guide](/authentication) for details.
+All API requests require authentication using API keys. See the [Authentication guide](/authentication) for details.
 
 ## Rate Limits
 
@@ -33,25 +33,6 @@ When limits are exceeded, you'll receive a `429 Too Many Requests` response.
 
 - **[POST /sources/content/add](/POST%20/sources/content/add)** - Add content to knowledge base
 - **[POST /sources/content/search](/POST%20/sources/content/search)** - Search content semantically
-- **[GET /sources/content/get](/GET%20/sources/content/get)** - List all documents
-- **[GET /sources/content/get/tokens](/GET%20/sources/content/get/tokens)** - Get documents with token counts
-
-### Parameters
-
-- **[POST /sources/param/add](/POST%20/sources/param/add)** - Create a metadata parameter
-- **[GET /sources/param/get](/GET%20/sources/param/get)** - List all parameters
-- **[PUT /sources/param/manage](/PUT%20/sources/param/manage)** - Update a parameter
-- **[DELETE /sources/param/manage](/DELETE%20/sources/param/manage)** - Delete a parameter
-
-### API Keys
-
-- **[POST /keys/create](/POST%20/keys/create)** - Generate a new API key
-- **[GET /keys/list](/GET%20/keys/list)** - List all API keys
-
-### Statistics & Usage
-
-- **[GET /sources/stats](/GET%20/sources/stats)** - Get usage statistics
-- **[GET /usage/status](/GET%20/usage/status)** - Get current usage status and limits
 
 ## Response Format
 
@@ -78,8 +59,7 @@ Error responses include an `error` field:
 - `200` - Success
 - `201` - Created
 - `400` - Bad Request (invalid input)
-- `401` - Unauthorized (missing/invalid authentication)
-- `404` - Not Found
+- `401` - Unauthorized (missing/invalid API key)
 - `429` - Too Many Requests (usage limit exceeded)
 - `500` - Internal Server Error
 

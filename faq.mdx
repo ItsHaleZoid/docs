@@ -21,11 +21,9 @@ icon: circle-question
 </Accordion>
 
 <Accordion title="What authentication methods are supported?">
-  Asimov supports two authentication methods:
-  - **API Keys** (recommended): Server-side API keys that start with `asmv-`
-  - **JWT Tokens**: For web applications using Supabase authentication
+  Asimov API uses API key authentication. API keys start with `asmv-` and are used for all API requests. Use Bearer token authentication in the `Authorization` header.
 
-  Both methods use Bearer token authentication in the `Authorization` header.
+  Generate your API key from [Settings > API](https://asimov.mov/settings/api) in the dashboard.
 </Accordion>
 </AccordionGroup>
 
@@ -79,7 +77,7 @@ icon: circle-question
 </Accordion>
 
 <Accordion title="How do I check my usage?">
-  Use the `GET /usage/status` endpoint or check your [Dashboard](https://asimov.mov/dashboard) to see:
+  Check your [Dashboard](https://asimov.mov/dashboard) to see:
   - Current search usage vs limit
   - Current token usage vs limit
   - Whether limits are exceeded
@@ -110,10 +108,7 @@ icon: circle-question
 </Accordion>
 
 <Accordion title="What HTTP methods are supported?">
-  - `GET` - Retrieve data
-  - `POST` - Create new resources
-  - `PUT` - Update existing resources
-  - `DELETE` - Delete resources
+  - `POST` - Create new resources (add content, search)
 </Accordion>
 
 <Accordion title="What formats are supported?">
