@@ -5,8 +5,11 @@
   "colors": {
     "primary": "#000000",
     "light": "#ffffff",
-    "dark": "#000000",
-    "background": {
+    "dark": "#000000"
+  },
+  "background": {
+    "color": {
+      "light": "#ffffff",
       "dark": "#000000"
     }
   },
