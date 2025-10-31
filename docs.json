@@ -40,8 +40,7 @@
             "group": "Getting Started",
             "pages": [
               "main",
-              "quickstart",
-              "authentication"
+              "quickstart"
             ]
           },
           {
@@ -56,15 +55,7 @@
           {
             "group": "Features",
             "pages": [
-              "features/content-management",
-              "features/usage-limits",
               "features/parameters"
-            ]
-          },
-          {
-            "group": "Integrations",
-            "pages": [
-              "integrations/mcp-integration"
             ]
           },
           {
@@ -115,11 +106,10 @@
   "contextual": {
     "options": [
       "copy",
-      "view",
       "chatgpt",
       "claude",
+      "view",
       "perplexity",
-      "mcp",
       "cursor",
       "vscode"
     ]

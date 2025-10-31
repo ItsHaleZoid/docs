@@ -17,3 +17,80 @@
   background: transparent !important;
 }
 
+/* Make API method pills (POST buttons) white */
+.method-pill {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.method-pill svg {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+/* Make API playground buttons white */
+.api-playground button,
+.api-playground input[type="button"],
+.api-playground input[type="submit"],
+.api-playground [role="button"] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Make icons inside buttons black (for contrast on white background) */
+.api-playground button svg,
+.api-playground [role="button"] svg,
+button svg {
+  color: #000000 !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* Make API section buttons white */
+.api-section button,
+.api-section .method-pill {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.api-section button svg {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+/* Target all buttons in dark mode to ensure white background */
+.dark .method-pill,
+.dark .api-playground button,
+.dark .api-section button {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark .method-pill svg,
+.dark .api-playground button svg,
+.dark .api-section button svg {
+  color: #000000 !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* Make document images have rounded corners */
+.content img,
+.content-area img,
+img:not(.nav-icon img):not(.navigation-icon img) {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+/* Ensure images in markdown content have rounded corners */
+.prose img,
+article img,
+main img {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+

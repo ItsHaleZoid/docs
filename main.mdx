@@ -1,7 +1,7 @@
 ---
-title: "Asimov Documentation"
+title: "Documentation"
 description: "Build the foundational AI search for your AI agents and applications."
-icon: 'sparkles'
+icon: 'book'
 ---
 
 ![title](dashboard.png)
@@ -10,10 +10,10 @@ icon: 'sparkles'
 
 Asimov is a foundational AI search platform that enables developers to build powerful semantic search capabilities for AI agents and applications. It provides:
 
-- **Vector-based semantic search** using state-of-the-art embeddings
-- **Content management** with automatic chunking and embedding generation
-- **Metadata filtering** using custom parameters
-- **Usage tracking** with tiered limits for free and paid users
+- **Vector-based semantic search** using state-of-the-art embeddings and re-rankings.
+- **Content management** with automatic igestion, without hosting a sperate Vector Database.
+- **Parameter filtering** using custom parameters
+- **Usage tracking** of the the API Requests and Search events.
 - **API-first architecture** for easy integration
 
 ## Quick Start
@@ -31,31 +31,15 @@ Asimov is a foundational AI search platform that enables developers to build pow
 
 <Columns cols={2}>
   <Card
-    title="Content Management"
-    icon="files"
-    href="/features/content-management"
-  >
-    Add and manage content in your knowledge base with automatic chunking and embedding.
-  </Card>
-  
-  <Card
-    title="Semantic Search"
+    title="Search"
     icon="search"
-    href="/features/content-management"
+    href="/api-reference/introduction"
   >
     Perform intelligent semantic search across your content using vector embeddings.
   </Card>
   
   <Card
-    title="Usage Limits"
-    icon="chart-bar"
-    href="/features/usage-limits"
-  >
-    Track usage with clear limits for free and paid tiers. Usage resets on subscription renewal.
-  </Card>
-  
-  <Card
-    title="Metadata Parameters"
+    title=" Parameters"
     icon="cube"
     href="/features/parameters"
   >
@@ -75,12 +59,3 @@ Explore our comprehensive API documentation:
   Complete API documentation with interactive examples and code snippets.
 </Card>
 
-## Integrations
-
-<Card
-  title="MCP Integration"
-  icon="plug"
-  href="/integrations/mcp-integration"
->
-  Connect Asimov with Cursor, Claude Code, Windsurf, and other MCP-compatible tools.
-</Card>

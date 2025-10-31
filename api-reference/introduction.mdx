@@ -16,7 +16,11 @@ https://asimov.mov/api
 
 ## Authentication
 
-All API requests require authentication using API keys. See the [Authentication guide](/authentication) for details.
+All API requests require authentication using API keys. API keys start with `asmv-` and should be included in the `Authorization` header as a Bearer token:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
 
 ## Rate Limits
 

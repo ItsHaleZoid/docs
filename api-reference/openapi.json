@@ -29,7 +29,7 @@
     "/sources/content/add": {
       "post": {
         "tags": ["Content"],
-        "summary": "Add content to knowledge base",
+        "summary": "Add content",
         "description": "Adds content to your knowledge base. The content is automatically chunked, embedded, and stored in MongoDB. Supports optional metadata parameters for filtering.",
         "operationId": "addContent",
         "requestBody": {
