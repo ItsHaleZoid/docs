@@ -1,0 +1,143 @@
+---
+title: "Usage Limits"
+description: "Understand usage limits and subscription tiers"
+icon: chart-bar
+---
+
+Asimov provides tiered usage limits based on your subscription plan. Usage is tracked per user and resets automatically on subscription renewal.
+
+## Subscription Tiers
+
+### Free Tier
+
+- **Search Limit**: 550 queries per month
+- **Add Limit**: 1 million tokens per month
+
+### Paid Tier
+
+- **Search Limit**: 15,000 queries per month  
+- **Add Limit**: 10 million tokens per month
+
+## Checking Usage
+
+Use the `GET /usage/status` endpoint to check your current usage:
+
+```bash
+curl -X GET https://asimov.mov/api/usage/status \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "usage": {
+    "hasAccess": false,
+    "searchUsage": 123,
+    "addUsage": 450000,
+    "searchLimit": 550,
+    "addLimit": 1000000,
+    "searchExceeded": false,
+    "addExceeded": false
+  }
+}
+```
+
+## Usage Tracking
+
+### Search Usage
+
+- Each successful search request increments the search counter by 1
+- Usage is checked before processing each search request
+- If the limit is exceeded, you'll receive a `429` error
+
+### Add Usage
+
+- Token count is calculated using `tiktoken` (or estimated as content length / 4)
+- Usage is checked before processing content addition
+- If adding the content would exceed the limit, you'll receive a `429` error
+
+## Rate Limit Errors
+
+When you exceed usage limits, you'll receive a `429 Too Many Requests` response:
+
+### Search Limit Exceeded
+
+**Free Tier:**
+```json
+{
+  "error": "Usage limit exceeded",
+  "details": "search limit of 550 queries reached. Please upgrade to continue",
+  "usage": {
+    "searchUsage": 550,
+    "searchLimit": 550
+  }
+}
+```
+
+**Paid Tier:**
+```json
+{
+  "error": "Usage limit exceeded",
+  "details": "search limit of 15K queries reached.",
+  "usage": {
+    "searchUsage": 15000,
+    "searchLimit": 15000
+  }
+}
+```
+
+### Add Limit Exceeded
+
+**Free Tier:**
+```json
+{
+  "error": "Usage limit exceeded",
+  "details": "add limit of 1M tokens reached. Please upgrade to continue",
+  "usage": {
+    "addUsage": 1000000,
+    "addLimit": 1000000,
+    "requestedTokens": 50000
+  }
+}
+```
+
+**Paid Tier:**
+```json
+{
+  "error": "Usage limit exceeded",
+  "details": "add limit of 10M tokens reached.",
+  "usage": {
+    "addUsage": 10000000,
+    "addLimit": 10000000,
+    "requestedTokens": 50000
+  }
+}
+```
+
+## Usage Reset
+
+Usage counters are automatically reset:
+
+- When a new subscription is created
+- On subscription renewal (payment success)
+- When a subscription is reactivated
+
+## Monitoring Usage
+
+You can monitor your usage through:
+
+1. **API**: Use `GET /usage/status` endpoint
+2. **Dashboard**: View usage stats in the [Dashboard](https://asimov.mov/dashboard)
+3. **Stats API**: Use `GET /sources/stats` for detailed statistics
+
+## Upgrading
+
+To upgrade your plan and increase limits:
+
+1. Visit [Pricing](https://asimov.mov/pricing)
+2. Select your desired plan
+3. Complete the checkout process
+4. Usage limits will be updated immediately
+

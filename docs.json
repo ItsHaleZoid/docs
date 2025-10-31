@@ -6,28 +6,63 @@
     "primary": "#000000",
     "light": "#ffffff",
     "dark": "#212121"
-    
   },
   "favicon": "/favicon.svg",
+  "api": {
+    "mdx": {
+      "server": "https://asimov.mov/api",
+      "auth": {
+        "method": "bearer",
+        "name": "Authorization"
+      }
+    },
+    "playground": {
+      "display": "interactive",
+      "proxy": true
+    },
+    "examples": {
+      "languages": ["curl", "javascript", "python"],
+      "defaults": "required"
+    }
+  },
   "navigation": {
     "tabs": [
       {
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Quickstart",
+            "group": "Getting Started",
             "pages": [
               "main",
-              "quickstart"
+              "quickstart",
+              "authentication"
             ]
           },
-        
           {
-            "group": "Tools",
+            "group": "API Reference",
+            "openapi": "api-reference/openapi.json",
             "pages": [
-              "platform/web_search",
-              "platform/sources",
-              "platform/context"
+              "api-reference/introduction",
+              "POST /sources/content/add",
+              "POST /sources/content/search",
+              "GET /sources/content/get",
+              "GET /sources/content/get/tokens",
+              "POST /sources/param/add",
+              "GET /sources/param/get",
+              "PUT /sources/param/manage",
+              "DELETE /sources/param/manage",
+              "POST /keys/create",
+              "GET /keys/list",
+              "GET /sources/stats",
+              "GET /usage/status"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "features/content-management",
+              "features/usage-limits",
+              "features/parameters"
             ]
           },
           {
@@ -57,7 +92,6 @@
           "href": "mailto:hamza@asimov.mov",
           "icon": "envelope"
         }
-       
       ]
     }
   },
@@ -84,15 +118,15 @@
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {

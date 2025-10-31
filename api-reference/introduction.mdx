@@ -1,33 +1,88 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API Reference"
+description: "Complete API reference for Asimov"
+icon: code
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+Welcome to the Asimov API reference. This documentation provides detailed information about all available endpoints, request/response formats, and code examples.
 
-## Welcome
+## Base URL
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+All API requests should be made to:
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```
+https://asimov.mov/api
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API requests require authentication using Bearer tokens. See the [Authentication guide](/authentication) for details.
+
+## Rate Limits
+
+Asimov enforces usage limits based on your subscription tier:
+
+- **Free Tier**: 550 searches/month, 1M tokens/month
+- **Paid Tier**: 15,000 searches/month, 10M tokens/month
+
+When limits are exceeded, you'll receive a `429 Too Many Requests` response.
+
+## API Endpoints
+
+### Content Management
+
+- **[POST /sources/content/add](/POST%20/sources/content/add)** - Add content to knowledge base
+- **[POST /sources/content/search](/POST%20/sources/content/search)** - Search content semantically
+- **[GET /sources/content/get](/GET%20/sources/content/get)** - List all documents
+- **[GET /sources/content/get/tokens](/GET%20/sources/content/get/tokens)** - Get documents with token counts
+
+### Parameters
+
+- **[POST /sources/param/add](/POST%20/sources/param/add)** - Create a metadata parameter
+- **[GET /sources/param/get](/GET%20/sources/param/get)** - List all parameters
+- **[PUT /sources/param/manage](/PUT%20/sources/param/manage)** - Update a parameter
+- **[DELETE /sources/param/manage](/DELETE%20/sources/param/manage)** - Delete a parameter
+
+### API Keys
+
+- **[POST /keys/create](/POST%20/keys/create)** - Generate a new API key
+- **[GET /keys/list](/GET%20/keys/list)** - List all API keys
+
+### Statistics & Usage
+
+- **[GET /sources/stats](/GET%20/sources/stats)** - Get usage statistics
+- **[GET /usage/status](/GET%20/usage/status)** - Get current usage status and limits
+
+## Response Format
+
+All successful responses return JSON with a `success` field:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "success": true,
+  "data": { ... }
+}
 ```
+
+Error responses include an `error` field:
+
+```json
+{
+  "error": "Error message",
+  "details": "Additional details"
+}
+```
+
+## HTTP Status Codes
+
+- `200` - Success
+- `201` - Created
+- `400` - Bad Request (invalid input)
+- `401` - Unauthorized (missing/invalid authentication)
+- `404` - Not Found
+- `429` - Too Many Requests (usage limit exceeded)
+- `500` - Internal Server Error
+
+## Interactive API Playground
+
+All endpoints include an interactive playground where you can test requests directly from the documentation. Click on any endpoint to try it out!

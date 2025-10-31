@@ -1,135 +1,138 @@
 ---
 title: "Quickstart"
-description: "Install the Asimov MCP and Integrate it with your coding assistant."
+description: "Get started with Asimov API in minutes"
 icon: compass
 ---
 
-### Get started in three steps
+Get up and running with Asimov in three simple steps.
 
-1. Get API_KEY > 2. Connect MCP > 3. Use Tool
+## Step 1: Create an Account
 
+1. Visit [https://asimov.mov/get-started](https://asimov.mov/get-started)
+2. Sign up with your email address
+3. Verify your email address
 
-### Step 1: Create your API Key 
-![title](apikeys.jpg)
+## Step 2: Generate an API Key
 
-1. Go to https://asimov.mov/settings/api
-2. Click "Generate" button
-3. Copy the Generated API Key
+1. Go to [https://asimov.mov/settings/api](https://asimov.mov/settings/api)
+2. Click the **"Generate"** button
+3. Copy your API key (it starts with `asmv-`)
 
-### Step 2: Connect MCP Server
+<Warning>
+  Your API key is shown only once. Store it securely and never commit it to version control.
+</Warning>
 
-Choose your preferred AI coding assistant and follow the configuration steps:
+## Step 3: Make Your First Request
 
-<Tabs>
-  <Tab title="Claude Code">
-    Add the following configuration to your `~/.config/claude/claude_desktop_config.json`:
+### Add Content
 
-    ```json
-    {
-      "mcpServers": {
-        "asimov": {
-          "command": "npx",
-          "args": ["-y", "asimov-mcp"],
-          "env": {
-            "API_KEY": "your-api-key-here",
-            "API_URL": "https://asimov.mov" 
-          }
-        }
-      }
+Add your first content to the knowledge base:
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://asimov.mov/api/sources/content/add \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Asimov is a foundational AI search platform that enables developers to build powerful search capabilities for AI agents and applications.",
+    "name": "Introduction"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('https://asimov.mov/api/sources/content/add', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_API_KEY`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    content: 'Asimov is a foundational AI search platform that enables developers to build powerful search capabilities for AI agents and applications.',
+    name: 'Introduction'
+  })
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'https://asimov.mov/api/sources/content/add',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+    },
+    json={
+        'content': 'Asimov is a foundational AI search platform that enables developers to build powerful search capabilities for AI agents and applications.',
+        'name': 'Introduction'
     }
-    ```
+)
 
-    Replace `your-api-key-here` with the API key you generated in Step 1.
-  </Tab>
+print(response.json())
+```
 
-  <Tab title="Cursor">
-    Add the following configuration to your Cursor MCP settings file:
+</CodeGroup>
 
-    **macOS/Linux:** `~/.cursor/mcp.json`
-    **Windows:** `%APPDATA%\Cursor\mcp.json`
+### Search Content
 
-    ```json
-    {
-      "mcpServers": {
-        "asimov": {
-          "command": "npx",
-          "args": ["-y", "asimov-mcp"],
-          "env": {
-            "API_KEY": "your-api-key-here",
-            "API_URL": "https://asimov.mov" 
-          }
-        }
-      }
+Now search across your content:
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://asimov.mov/api/sources/content/search \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "What is Asimov?",
+    "limit": 5
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('https://asimov.mov/api/sources/content/search', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer YOUR_API_KEY`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    query: 'What is Asimov?',
+    limit: 5
+  })
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'https://asimov.mov/api/sources/content/search',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+    },
+    json={
+        'query': 'What is Asimov?',
+        'limit': 5
     }
-    ```
+)
 
-    Replace `your-api-key-here` with the API key you generated in Step 1.
-  </Tab>
+print(response.json())
+```
 
-  <Tab title="Windsurf">
-    Add the following configuration to your Windsurf MCP settings:
+</CodeGroup>
 
-    **macOS:** `~/Library/Application Support/Windsurf/mcp.json`
-    **Linux:** `~/.config/Windsurf/mcp.json`
-    **Windows:** `%APPDATA%\Windsurf\mcp.json`
+## What's Next?
 
-    ```json
-    {
-      "mcpServers": {
-        "asimov": {
-          "command": "npx",
-          "args": ["-y", "asimov-mcp"],
-          "env": {
-            "API_KEY": "your-api-key-here",
-            "API_URL": "https://asimov.mov"
-          }
-        }
-      }
-    }
-    ```
-
-    Replace `your-api-key-here` with the API key you generated in Step 1.
-  </Tab>
-
-  <Tab title="Codex">
-    Add the following configuration to your Codex config file:
-
-    **macOS/Linux:** `~/.codex/config.toml`
-    **Windows:** `%USERPROFILE%\.codex\config.toml`
-
-    ```toml
-    [mcp_servers.asimov]
-    command = "npx"
-    args = ["-y", "asimov-mcp"]
-    env = { "API_KEY" = "your-api-key-here", "API_URL" = "https://asimov.mov" }
-    ```
-
-    Replace `your-api-key-here` with the API key you generated in Step 1.
-  </Tab>
-</Tabs>
-
-<Note>
-  After adding the configuration, restart your AI coding assistant to load the MCP server.
-</Note>
-
-### Step 3: Use Asimov MCP Tools
-
-Once you've configured the MCP server and restarted your AI coding assistant, you can start using Asimov's tools:
-
-1. **Access the tools**: The Asimov MCP tools will be automatically available in your assistant's interface
-2. **Available tools**: You'll have access to tools for:
-   - Context Retrieval
-   - Repository Map
-   - Web Search
-   - And more...
-
-3. **Example usage**: Simply ask your assistant to use Asimov tools:
-   ```
-   "Use Asimov to give the file strcture of socketio github repo"
-   "Save the above conversation in your context."
-   ```
-
-<Note>
-  The assistant will automatically detect and use the appropriate Asimov MCP tools based on your requests.
-</Note>
-
+- Read the [Authentication guide](/authentication) to understand API authentication
+- Explore the [API Reference](/api-reference/introduction) for detailed endpoint documentation
+- Learn about [Content Management](/features/content-management) features
+- Set up [Metadata Parameters](/features/parameters) for advanced filtering

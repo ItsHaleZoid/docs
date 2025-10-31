@@ -1,16 +1,17 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "Asimov API",
+    "description": "Asimov is a foundational AI search platform that enables developers to build powerful search capabilities for AI agents and applications. It provides vector-based semantic search, content management, and usage tracking.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "hamza@asimov.mov"
+    }
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://asimov.mov/api",
+      "description": "Production API"
     }
   ],
   "security": [
@@ -18,37 +19,99 @@
       "bearerAuth": []
     }
   ],
+  "tags": [
+    {
+      "name": "Content",
+      "description": "Manage and search content in your knowledge base"
+    },
+    {
+      "name": "Parameters",
+      "description": "Manage metadata parameters for filtering content"
+    },
+    {
+      "name": "API Keys",
+      "description": "Manage API keys for authentication"
+    },
+    {
+      "name": "Stats",
+      "description": "Retrieve usage statistics and metrics"
+    },
+    {
+      "name": "Usage",
+      "description": "Check usage limits and status"
+    }
+  ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+    "/sources/content/add": {
+      "post": {
+        "tags": ["Content"],
+        "summary": "Add content to knowledge base",
+        "description": "Adds content to your knowledge base. The content is automatically chunked, embedded, and stored in MongoDB. Supports optional metadata parameters for filtering.",
+        "operationId": "addContent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "The content to add to the knowledge base",
+                    "minLength": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Optional name/identifier for this content"
+                  },
+                  "params": {
+                    "type": "object",
+                    "description": "Optional metadata parameters for filtering. Must be created in the Sources section first.",
+                    "additionalProperties": true
+                  }
+                }
+              },
+              "examples": {
+                "basic": {
+                  "value": {
+                    "content": "Asimov is a foundational AI search platform.",
+                    "name": "Introduction"
+                  }
+                },
+                "withParams": {
+                  "value": {
+                    "content": "This is product documentation for version 2.0",
+                    "name": "Product Docs v2",
+                    "params": {
+                      "version": "2.0",
+                      "category": "documentation"
+                    }
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
-          "200": {
-            "description": "Plant response",
+          "201": {
+            "description": "Content added successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "Unexpected error",
+            "description": "Bad request - invalid input",
             "content": {
               "application/json": {
                 "schema": {
@@ -56,35 +119,51 @@
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
           },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
+          "401": {
+            "description": "Unauthorized - invalid API key or token",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
           },
-          "400": {
-            "description": "unexpected error",
+          "429": {
+            "description": "Usage limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "string"
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "addUsage": {
+                          "type": "integer"
+                        },
+                        "addLimit": {
+                          "type": "integer"
+                        },
+                        "requestedTokens": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -96,28 +175,153 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+    "/sources/content/search": {
+      "post": {
+        "tags": ["Content"],
+        "summary": "Search content",
+        "description": "Performs semantic search across your knowledge base using vector embeddings. Results are reranked for relevance.",
+        "operationId": "searchContent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["query"],
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "The search query",
+                    "minLength": 1
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Maximum number of results to return",
+                    "default": 10,
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Optional document ID to filter results by specific document"
+                  },
+                  "params": {
+                    "type": "object",
+                    "description": "Optional metadata parameters for filtering. Only content matching all provided parameters will be returned.",
+                    "additionalProperties": true
+                  },
+                  "recall": {
+                    "type": "integer",
+                    "description": "Number of candidates to retrieve before filtering and reranking",
+                    "default": 100,
+                    "minimum": 1
+                  }
+                }
+              },
+              "examples": {
+                "basic": {
+                  "value": {
+                    "query": "What is Asimov?",
+                    "limit": 5
+                  }
+                },
+                "withParams": {
+                  "value": {
+                    "query": "documentation",
+                    "limit": 10,
+                    "params": {
+                      "version": "2.0",
+                      "category": "documentation"
+                    },
+                    "recall": 200
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
+          "200": {
+            "description": "Search completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "content": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "unexpected error",
+            "description": "Bad request - invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - invalid API key or token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Usage limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "string"
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "searchUsage": {
+                          "type": "integer"
+                        },
+                        "searchLimit": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -128,25 +332,749 @@
           }
         }
       }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
+    },
+    "/sources/content/get": {
+      "get": {
+        "tags": ["Content"],
+        "summary": "Get all documents",
+        "description": "Retrieves all documents (sources) from your knowledge base. Returns only the first chunk (index 0) of each document.",
+        "operationId": "getDocuments",
+        "responses": {
+          "200": {
+            "description": "Documents retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "documents": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "content": {
+                            "type": "string"
+                          },
+                          "doc_id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "params": {
+                            "type": "object",
+                            "additionalProperties": true
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sources/content/get/tokens": {
+      "get": {
+        "tags": ["Content"],
+        "summary": "Get documents with token counts",
+        "description": "Retrieves all documents with their token counts instead of content. Useful for monitoring token usage.",
+        "operationId": "getDocumentsWithTokens",
+        "responses": {
+          "200": {
+            "description": "Documents retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "documents": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "doc_id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "params": {
+                            "type": "object",
+                            "additionalProperties": true
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "tokens": {
+                            "type": "array",
+                            "items": {
+                              "type": "integer"
+                            },
+                            "description": "Array of token IDs"
+                          },
+                          "token_count": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sources/param/add": {
       "post": {
-        "description": "Information about a new plant added to the store",
+        "tags": ["Parameters"],
+        "summary": "Add parameter",
+        "description": "Creates a new metadata parameter that can be used for filtering content.",
+        "operationId": "addParameter",
         "requestBody": {
-          "description": "Plant added to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Parameter name (must be unique)",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Optional description of the parameter"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Parameter created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sources/param/get": {
+      "get": {
+        "tags": ["Parameters"],
+        "summary": "Get all parameters",
+        "description": "Retrieves all parameters (metadata fields) you've created.",
+        "operationId": "getParameters",
+        "responses": {
+          "200": {
+            "description": "Parameters retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sources/param/manage": {
+      "put": {
+        "tags": ["Parameters"],
+        "summary": "Update parameter",
+        "description": "Updates an existing parameter's name and/or description.",
+        "operationId": "updateParameter",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["id", "name"],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Parameter ID to update"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "New parameter name",
+                    "minLength": 1
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "New parameter description"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "Parameter updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Parameter not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Parameters"],
+        "summary": "Delete parameter",
+        "description": "Deletes a parameter. Note: This does not remove parameters from existing content.",
+        "operationId": "deleteParameter",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Parameter ID to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Parameter deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Parameter deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keys/create": {
+      "post": {
+        "tags": ["API Keys"],
+        "summary": "Create API key",
+        "description": "Generates a new API key for authentication. The key is returned only once - store it securely.",
+        "operationId": "createApiKey",
+        "responses": {
+          "200": {
+            "description": "API key created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "key": {
+                      "type": "string",
+                      "description": "The API key (returned only once)",
+                      "example": "asmv-xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    },
+                    "key_4w": {
+                      "type": "string",
+                      "description": "Last 4 characters of the key for identification",
+                      "example": "xxxx"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keys/list": {
+      "get": {
+        "tags": ["API Keys"],
+        "summary": "List API keys",
+        "description": "Retrieves all your API keys. Note: Full keys are not returned for security - only the last 4 characters.",
+        "operationId": "listApiKeys",
+        "responses": {
+          "200": {
+            "description": "API keys retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "key_4w": {
+                            "type": "string",
+                            "description": "Last 4 characters of the key",
+                            "example": "xxxx"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sources/stats": {
+      "get": {
+        "tags": ["Stats"],
+        "summary": "Get statistics",
+        "description": "Retrieves usage statistics including sources count, searches count, and total tokens.",
+        "operationId": "getStats",
+        "responses": {
+          "200": {
+            "description": "Statistics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "stats": {
+                      "type": "object",
+                      "properties": {
+                        "sources": {
+                          "type": "integer",
+                          "description": "Number of sources (parameters) created"
+                        },
+                        "searches": {
+                          "type": "integer",
+                          "description": "Total number of searches performed"
+                        },
+                        "tokens": {
+                          "type": "integer",
+                          "description": "Total tokens stored in knowledge base"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usage/status": {
+      "get": {
+        "tags": ["Usage"],
+        "summary": "Get usage status",
+        "description": "Retrieves current usage status including limits and usage for both search and add operations.",
+        "operationId": "getUsageStatus",
+        "responses": {
+          "200": {
+            "description": "Usage status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "hasAccess": {
+                          "type": "boolean",
+                          "description": "Whether user has paid subscription"
+                        },
+                        "searchUsage": {
+                          "type": "integer",
+                          "description": "Number of searches performed"
+                        },
+                        "addUsage": {
+                          "type": "integer",
+                          "description": "Number of tokens added"
+                        },
+                        "searchLimit": {
+                          "type": "integer",
+                          "description": "Search limit (550 for free, 15000 for paid)"
+                        },
+                        "addLimit": {
+                          "type": "integer",
+                          "description": "Add limit in tokens (1M for free, 10M for paid)"
+                        },
+                        "searchExceeded": {
+                          "type": "boolean",
+                          "description": "Whether search limit is exceeded"
+                        },
+                        "addExceeded": {
+                          "type": "boolean",
+                          "description": "Whether add limit is exceeded"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -154,55 +1082,17 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
       "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
         "type": "object",
+        "required": ["error"],
         "properties": {
           "error": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "description": "Error message"
           },
-          "message": {
-            "type": "string"
+          "details": {
+            "type": "string",
+            "description": "Additional error details"
           }
         }
       }
@@ -210,7 +1100,8 @@
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "description": "Use your API key (prefixed with 'asmv-') or JWT token. Format: 'Bearer YOUR_API_KEY'"
       }
     }
   }

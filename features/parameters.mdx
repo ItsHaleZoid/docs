@@ -1,0 +1,155 @@
+---
+title: "Metadata Parameters"
+description: "Use parameters to organize and filter your content"
+icon: cube
+---
+
+Parameters are custom metadata fields that allow you to filter and organize your content effectively. They enable powerful querying capabilities when searching your knowledge base.
+
+## Creating Parameters
+
+Create parameters using the `POST /sources/param/add` endpoint:
+
+```bash
+curl -X POST https://asimov.mov/api/sources/param/add \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "version",
+    "description": "Document version number"
+  }'
+```
+
+### Parameter Naming
+
+- Parameter names are case-insensitive
+- Each user can create their own set of parameters
+- Parameter names must be unique per user
+
+## Using Parameters
+
+### Adding Content with Parameters
+
+When adding content, you can include parameters:
+
+```bash
+curl -X POST https://asimov.mov/api/sources/content/add \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Documentation for version 2.0",
+    "name": "Product Docs v2",
+    "params": {
+      "version": "2.0",
+      "category": "documentation",
+      "status": "published"
+    }
+  }'
+```
+
+<Warning>
+  Parameters must be created first before they can be used. If you try to add content with parameters that don't exist, you'll receive an error.
+</Warning>
+
+### Searching with Parameters
+
+Filter search results by parameters:
+
+```bash
+curl -X POST https://asimov.mov/api/sources/content/search \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "documentation",
+    "limit": 10,
+    "params": {
+      "version": "2.0",
+      "category": "documentation"
+    }
+  }'
+```
+
+### Parameter Filtering Logic
+
+- **All parameters must match**: All specified parameters must match exactly
+- **Post-filtering**: Parameters are applied after vector search but before reranking
+- **Case-sensitive values**: Parameter values are matched exactly as stored
+
+## Managing Parameters
+
+### List Parameters
+
+```bash
+curl -X GET https://asimov.mov/api/sources/param/get \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Update Parameter
+
+```bash
+curl -X PUT https://asimov.mov/api/sources/param/manage \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "param-id",
+    "name": "updated-name",
+    "description": "Updated description"
+  }'
+```
+
+### Delete Parameter
+
+```bash
+curl -X DELETE https://asimov.mov/api/sources/param/manage?id=param-id \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+<Note>
+  Deleting a parameter does not remove it from existing content. It only prevents future use of that parameter name.
+</Note>
+
+## Best Practices
+
+1. **Plan Your Schema**: Design your parameter structure before adding content
+2. **Use Consistent Values**: Use standardized values for better filtering
+3. **Document Parameters**: Provide clear descriptions for each parameter
+4. **Don't Over-filter**: Using too many parameters can reduce search results
+5. **Version Your Content**: Use version parameters to track document versions
+
+## Example Use Cases
+
+### Version Control
+
+```json
+{
+  "params": {
+    "version": "2.0",
+    "release_date": "2024-01-15"
+  }
+}
+```
+
+### Categorization
+
+```json
+{
+  "params": {
+    "category": "documentation",
+    "topic": "authentication",
+    "language": "english"
+  }
+}
+```
+
+### Status Tracking
+
+```json
+{
+  "params": {
+    "status": "published",
+    "reviewed": "true",
+    "author": "john-doe"
+  }
+}
+```
+

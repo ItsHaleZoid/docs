@@ -1,0 +1,133 @@
+---
+title: "Content Management"
+description: "Learn how to add, search, and manage content"
+icon: files
+---
+
+Asimov provides powerful content management capabilities with automatic chunking, embedding generation, and semantic search.
+
+## Adding Content
+
+Use the `POST /sources/content/add` endpoint to add content to your knowledge base.
+
+### Basic Content Addition
+
+The content is automatically:
+1. **Chunked** into ~700 token segments with 50 token overlap
+2. **Embedded** using Fireworks AI's Qwen3 embedding model
+3. **Stored** in MongoDB with vector search capabilities
+
+<CodeGroup>
+
+```bash Basic Example
+curl -X POST https://asimov.mov/api/sources/content/add \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Your content here. This can be any length of text.",
+    "name": "Document Name"
+  }'
+```
+
+```bash With Parameters
+curl -X POST https://asimov.mov/api/sources/content/add \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Documentation for version 2.0",
+    "name": "Product Docs v2",
+    "params": {
+      "version": "2.0",
+      "category": "documentation"
+    }
+  }'
+```
+
+</CodeGroup>
+
+### Content Processing
+
+- **Chunking**: Content is automatically split into chunks of approximately 700 tokens
+- **Token Counting**: Uses `tiktoken` for accurate token counting (falls back to character estimation if needed)
+- **Embeddings**: Each chunk is embedded using Fireworks AI's `qwen3-embedding-8b` model
+- **Storage**: Content is stored in MongoDB Atlas with vector search indexes
+
+## Searching Content
+
+Use the `POST /sources/content/search` endpoint to perform semantic search.
+
+### Basic Search
+
+<CodeGroup>
+
+```bash Basic Search
+curl -X POST https://asimov.mov/api/sources/content/search \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "What is Asimov?",
+    "limit": 10
+  }'
+```
+
+```bash Search with Filters
+curl -X POST https://asimov.mov/api/sources/content/search \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "documentation",
+    "limit": 5,
+    "params": {
+      "version": "2.0",
+      "category": "documentation"
+    },
+    "recall": 200
+  }'
+```
+
+</CodeGroup>
+
+### Search Process
+
+1. **Query Embedding**: The search query is converted to a vector embedding
+2. **Vector Search**: MongoDB performs vector similarity search using the `vector_index`
+3. **Reranking**: Results are reranked using Fireworks AI's `qwen3-reranker-8b` model
+4. **Filtering**: If parameters are provided, results are filtered to match all specified parameters
+5. **Limiting**: Results are limited to the requested number
+
+### Search Parameters
+
+- `query` (required): The search query text
+- `limit` (optional): Maximum results to return (default: 10, max: 100)
+- `id` (optional): Filter by specific document ID
+- `params` (optional): Filter by metadata parameters
+- `recall` (optional): Number of candidates before filtering (default: 100)
+
+## Retrieving Documents
+
+### List All Documents
+
+```bash
+curl -X GET https://asimov.mov/api/sources/content/get \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Returns all documents with their content, metadata, and creation dates.
+
+### Get Token Counts
+
+```bash
+curl -X GET https://asimov.mov/api/sources/content/get/tokens \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Returns documents with token counts instead of content, useful for monitoring usage.
+
+## Best Practices
+
+1. **Use Descriptive Names**: Provide meaningful names for your documents
+2. **Organize with Parameters**: Use metadata parameters to organize and filter content
+3. **Monitor Token Usage**: Check token counts regularly to stay within limits
+4. **Optimize Chunk Size**: Content is automatically chunked, but longer documents may benefit from explicit structure
+5. **Filter When Possible**: Use parameters to narrow search results and improve relevance
+

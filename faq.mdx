@@ -1,6 +1,6 @@
 ---
 title: "FAQ"
-description: "Frequently asked questions about Asimov MCP"
+description: "Frequently asked questions about Asimov API"
 icon: circle-question
 ---
 
@@ -8,146 +8,190 @@ icon: circle-question
 
 <AccordionGroup>
 <Accordion title="What is Asimov?">
-  Asimov is a platform that enhances your AI coding assistant by providing it additional tools for memory management, context storage, source indexing, and web search capabilities.
+  Asimov is a foundational AI search platform that enables developers to build powerful semantic search capabilities for AI agents and applications. It provides vector-based semantic search, content management with automatic chunking and embedding, and usage tracking with tiered limits.
 </Accordion>
 
 <Accordion title="How do I get started with Asimov?">
   To get started with Asimov:
-  1. Sign up at [Asimov](https://asimov.mov)
-  2. Generate an API key from your settings
-  3. Configure your AI assistant (Claude Code, Cursor, or Windsurf) with the MCP server
-  4. Start using Asimov tools in your workflow
+  1. Sign up at [asimov.mov/get-started](https://asimov.mov/get-started)
+  2. Generate an API key from [Settings > API](https://asimov.mov/settings/api)
+  3. Make your first API request using the [Quickstart guide](/quickstart)
 
-  See our [Quickstart guide](/quickstart) for detailed instructions.
+  See our [Quickstart guide](/quickstart) for detailed instructions with code examples.
+</Accordion>
+
+<Accordion title="What authentication methods are supported?">
+  Asimov supports two authentication methods:
+  - **API Keys** (recommended): Server-side API keys that start with `asmv-`
+  - **JWT Tokens**: For web applications using Supabase authentication
+
+  Both methods use Bearer token authentication in the `Authorization` header.
 </Accordion>
 </AccordionGroup>
 
-
-## Context Management
-
-<AccordionGroup>
-<Accordion title="How does context storage work?">
-  Context storage allows you to save conversation history with timestamps. This is useful for:
-  - Sharing conversations between different coding agents (Cursor, Claude Code, Codex, etc)
-  - Continuing work across different sessions
-</Accordion>
-
-
-</AccordionGroup>
-
-## Source Management
+## Content Management
 
 <AccordionGroup>
-<Accordion title="What sources can I index?">
-  You can index:
-  - Documentation websites (e.g., framework docs, API references)
-  - GitHub repositories (view structure and search code)
+<Accordion title="How does content addition work?">
+  When you add content:
+  1. Content is automatically chunked into ~700 token segments with 50 token overlap
+  2. Each chunk is embedded using Fireworks AI's Qwen3 embedding model
+  3. Content is stored in MongoDB Atlas with vector search indexes
+  4. Token count is tracked against your usage limits
 </Accordion>
 
-<Accordion title="How do I index documentation?">
-  Ask your assistant to index a documentation site:
-  ```
-  "Index the Supabase docs at https://supabase.com/docs" 
-  or "Index Supabase docs"
-  ```
-
-  Once indexed, you can search the documentation without leaving your editor.
+<Accordion title="How does semantic search work?">
+  Semantic search uses vector embeddings:
+  1. Your query is converted to a vector embedding
+  2. MongoDB performs vector similarity search using the `vector_index`
+  3. Results are reranked using Fireworks AI's reranker model
+  4. Optional parameter filtering is applied
+  5. Top results are returned based on relevance
 </Accordion>
 
-<Accordion title="Can I view GitHub repository structure?">
-  Yes! Use the repository view tool to see the file structure of any GitHub repository:
-  ```
-  "Show me the file structure of the socket.io GitHub repo"
-  ```
+<Accordion title="What are metadata parameters?">
+  Parameters are custom metadata fields you create to organize and filter content. They allow you to:
+  - Tag content with custom attributes (version, category, status, etc.)
+  - Filter search results by specific parameters
+  - Organize content for better retrieval
 
-  This helps your agent and you to understand the repository tree structure, before indexing it.
+  Parameters must be created before they can be used in content.
 </Accordion>
 
-<Accordion title="Can my agent read from specific repository file?">
-  Yes! Use the repository select tool to read the content of a specific file in a repository:
-  ```
-  "Read the content of "Field" component from shadcn-ui/ui and implpement it with our OWN colorful branding."
-  ```
-
-  This helps your agent and you to understand the repository tree structure, before indexing it.
+<Accordion title="Can I search by specific document?">
+  Yes! Use the `id` parameter in search requests to filter results by a specific document ID. This allows you to search within a single document rather than across all your content.
 </Accordion>
 </AccordionGroup>
 
-## Web Search
+## Usage & Limits
 
 <AccordionGroup>
-<Accordion title="How does web search work?">
-  Asimov's web search tool allows your AI assistant to find up-to-date information, documentation, and GitHub repositories in real-time. It's useful for:
-  - Finding latest API versions
-  - Discovering new libraries
-  - Verifying documentation
+<Accordion title="What are the usage limits?">
+  **Free Tier:**
+  - 550 searches per month
+  - 1 million tokens per month
+
+  **Paid Tier:**
+  - 15,000 searches per month
+  - 10 million tokens per month
+
+  Usage resets automatically on subscription renewal.
 </Accordion>
 
-<Accordion title="What can I search for?">
-  You can search for:
-  - Documentation and tutorials
-  - GitHub repositories
-  - Code examples
-  - Technical articles
-  - API references
+<Accordion title="How do I check my usage?">
+  Use the `GET /usage/status` endpoint or check your [Dashboard](https://asimov.mov/dashboard) to see:
+  - Current search usage vs limit
+  - Current token usage vs limit
+  - Whether limits are exceeded
+</Accordion>
+
+<Accordion title="What happens when I exceed limits?">
+  When you exceed usage limits, you'll receive a `429 Too Many Requests` response with details about:
+  - Which limit was exceeded (search or add)
+  - Current usage vs limit
+  - Message indicating upgrade options (for free tier)
+
+  You can upgrade your plan to increase limits, or wait for the next billing cycle.
+</Accordion>
+
+<Accordion title="How are tokens counted?">
+  Token counting uses `tiktoken` for accurate counting (fallback to character estimation if needed). The count is based on the actual content length, not the chunked size. Each chunk is processed separately, but the total token count reflects the original content.
 </Accordion>
 </AccordionGroup>
 
-## Billing & Usage
+## API & Technical
 
 <AccordionGroup>
-<Accordion title="How does Asimov pricing work?">
+<Accordion title="What is the base URL?">
+  All API requests should be made to:
+  ```
+  https://asimov.mov/api
+  ```
+</Accordion>
+
+<Accordion title="What HTTP methods are supported?">
+  - `GET` - Retrieve data
+  - `POST` - Create new resources
+  - `PUT` - Update existing resources
+  - `DELETE` - Delete resources
+</Accordion>
+
+<Accordion title="What formats are supported?">
+  All requests and responses use JSON format. The `Content-Type` header should be set to `application/json` for POST/PUT requests.
+</Accordion>
+
+<Accordion title="How do I handle errors?">
+  Errors are returned as JSON with an `error` field. Common status codes:
+  - `400` - Bad Request (invalid input)
+  - `401` - Unauthorized (missing/invalid auth)
+  - `404` - Not Found
+  - `429` - Too Many Requests (usage limit exceeded)
+  - `500` - Internal Server Error
+
+  Check the `details` field for additional information.
+</Accordion>
+</AccordionGroup>
+
+## Billing & Subscription
+
+<AccordionGroup>
+<Accordion title="How does pricing work?">
   Asimov offers flexible pricing based on your usage needs. Visit our [pricing page](https://asimov.mov/pricing) for detailed information about plans and features.
 </Accordion>
 
-<Accordion title="Are there usage limits?">
-  Usage limits depend on your subscription plan. You can monitor your usage in your account dashboard at [Dashboard](https://asimov.mov/dashboard).
+<Accordion title="When does usage reset?">
+  Usage counters are automatically reset:
+  - When a new subscription is created
+  - On subscription renewal (payment success)
+  - When a subscription is reactivated
+
+  Usage is tracked per user and resets automatically with your billing cycle.
 </Accordion>
 
 <Accordion title="Can I upgrade or downgrade my plan?">
-  Yes! You can change your subscription plan at any time from your account settings.
+  Yes! You can change your subscription plan at any time from your account settings or the [pricing page](https://asimov.mov/pricing). Changes take effect immediately.
 </Accordion>
 </AccordionGroup>
 
 ## Troubleshooting
 
 <AccordionGroup>
-<Accordion title="MCP server is not connecting">
-  Common solutions:
-  - Verify your API key is correct in the configuration
-  - Restart your AI assistant after adding the configuration
-  - Check that `npx` is available in your PATH
-  - Ensure you have an active internet connection
-  - Check the assistant's console/logs for error messages
+<Accordion title="Getting 401 Unauthorized errors">
+  Common causes:
+  - Missing `Authorization` header
+  - Invalid or expired API key
+  - Incorrect header format (must be `Bearer <token>`)
+  - API key not starting with `asmv-` prefix
+
+  Generate a new API key from [Settings > API](https://asimov.mov/settings/api) if needed.
 </Accordion>
 
-<Accordion title="Tools are not appearing in my assistant">
-  If Asimov tools aren't showing up:
-  1. Verify the configuration file is in the correct location:
-     - Claude Code: `~/.config/claude/claude_desktop_config.json`
-     - Cursor: `~/.cursor/mcp.json`
-     - Windsurf: `~/Library/Application Support/Windsurf/mcp.json` (macOS)
-     - Codex: `~/.codex/config.toml`
-  2. Check the configuration syntax is correct (valid JSON for Claude/Cursor/Windsurf, valid TOML for Codex)
-  3. Restart your assistant completely
-  4. Check for error messages in the logs
+<Accordion title="Getting 400 Bad Request errors">
+  Common causes:
+  - Missing required fields in request body
+  - Invalid data types (e.g., string instead of object)
+  - Using parameters that don't exist
+  - Invalid parameter values
+
+  Check the API reference for required fields and formats.
 </Accordion>
 
-<Accordion title="API key errors">
-  If you're getting API key errors:
-  - Generate a new API key from [asimov.mov/settings/api](https://asimov.mov/settings/api)
-  - Update your MCP configuration with the new key
-  - Ensure there are no extra spaces or quotes in the API key
-  - Restart your assistant after updating the configuration
+<Accordion title="Search results are not relevant">
+  Tips to improve relevance:
+  - Use more specific queries
+  - Utilize metadata parameters to filter results
+  - Ensure your content is well-structured
+  - Consider using the `recall` parameter to retrieve more candidates before filtering
 </Accordion>
 
-
-
+<Accordion title="How do I delete old content?">
+  Currently, content deletion is not available through the API. Contact support at [hamza@asimov.mov](mailto:hamza@asimov.mov) for assistance with content management.
+</Accordion>
 </AccordionGroup>
 
 ## Still need help?
 
 Can't find what you're looking for?
 
-- Check our [Documentation](https://docs.asimov.mov) for detailed guides
-- Contact at [hamza@asimov.mov](mailto:hamza@asimov.mov)
+- Check our [API Reference](/api-reference/introduction) for detailed endpoint documentation
+- Contact support at [hamza@asimov.mov](mailto:hamza@asimov.mov)
