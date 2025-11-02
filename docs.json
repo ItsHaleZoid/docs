@@ -16,7 +16,7 @@
   "favicon": "/favicon.svg",
   "api": {
     "mdx": {
-      "server": "https://asimov.mov/api",
+      "server": "https://asimov.mov",
       "auth": {
         "method": "bearer",
         "name": "Authorization"
@@ -48,8 +48,8 @@
             "openapi": "api-reference/openapi.json",
             "pages": [
               "api-reference/introduction",
-              "POST /sources/content/add",
-              "POST /sources/content/search"
+              "POST /api/add",
+              "POST /api/search"
             ]
           },
           {

@@ -28,7 +28,7 @@ Add your first content to the knowledge base:
 <CodeGroup>
 
 ```bash cURL
-curl -X POST https://asimov.mov/api/sources/content/add \
+curl -X POST https://asimov.mov/api/add \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -38,7 +38,7 @@ curl -X POST https://asimov.mov/api/sources/content/add \
 ```
 
 ```javascript JavaScript
-const response = await fetch('https://asimov.mov/api/sources/content/add', {
+const response = await fetch('https://asimov.mov/api/add', {
   method: 'POST',
   headers: {
     'Authorization': `Bearer YOUR_API_KEY`,
@@ -58,7 +58,7 @@ console.log(data);
 import requests
 
 response = requests.post(
-    'https://asimov.mov/api/sources/content/add',
+    'https://asimov.mov/api/add',
     headers={
         'Authorization': 'Bearer YOUR_API_KEY',
         'Content-Type': 'application/json'
@@ -81,7 +81,7 @@ Now search across your content:
 <CodeGroup>
 
 ```bash cURL
-curl -X POST https://asimov.mov/api/sources/content/search \
+curl -X POST https://asimov.mov/api/search \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -91,7 +91,7 @@ curl -X POST https://asimov.mov/api/sources/content/search \
 ```
 
 ```javascript JavaScript
-const response = await fetch('https://asimov.mov/api/sources/content/search', {
+const response = await fetch('https://asimov.mov/api/search', {
   method: 'POST',
   headers: {
     'Authorization': `Bearer YOUR_API_KEY`,
@@ -111,7 +111,7 @@ console.log(data);
 import requests
 
 response = requests.post(
-    'https://asimov.mov/api/sources/content/search',
+    'https://asimov.mov/api/search',
     headers={
         'Authorization': 'Bearer YOUR_API_KEY',
         'Content-Type': 'application/json'

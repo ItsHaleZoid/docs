@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://asimov.mov/api",
+      "url": "https://asimov.mov",
       "description": "Production API"
     }
   ],
@@ -26,7 +26,7 @@
     }
   ],
   "paths": {
-    "/sources/content/add": {
+    "/api/add": {
       "post": {
         "tags": ["Content"],
         "summary": "Add content",
@@ -159,7 +159,7 @@
         }
       }
     },
-    "/sources/content/search": {
+    "/api/search": {
       "post": {
         "tags": ["Content"],
         "summary": "Search content",

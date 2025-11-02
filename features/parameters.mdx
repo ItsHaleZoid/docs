@@ -17,7 +17,7 @@ Parameters are custom metadata fields that allow you to filter and organize your
 When adding content via the API, you can include parameters that were previously created in the dashboard:
 
 ```bash
-curl -X POST https://asimov.mov/api/sources/content/add \
+curl -X POST https://asimov.mov/api/add \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -40,7 +40,7 @@ curl -X POST https://asimov.mov/api/sources/content/add \
 Filter search results by parameters:
 
 ```bash
-curl -X POST https://asimov.mov/api/sources/content/search \
+curl -X POST https://asimov.mov/api/search \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
