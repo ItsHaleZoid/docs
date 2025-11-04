@@ -20,7 +20,7 @@ icon: circle-question
   See our [Quickstart guide](/quickstart) for detailed instructions with code examples.
 </Accordion>
 
-<Accordion title="What authentication methods are supported?">
+<Accordion title="How to use API Key?">
   Asimov API uses API key authentication. API keys start with `asmv-` and are used for all API requests. Use Bearer token authentication in the `Authorization` header.
 
   Generate your API key from [Settings > API](https://asimov.mov/settings/api) in the dashboard.
@@ -32,12 +32,12 @@ icon: circle-question
 <AccordionGroup>
 
 
-<Accordion title="How does semantic search work?">
+<Accordion title="How does search work?">
   Semantic search uses vector embeddings:
-  1. Your query is converted to a vector embedding of 4096 dimenstions.
+  1. Your query is converted to a vector embedding.
   2. Our infrastructure performs vector similarity search
-  3. Results are reranked using the reranker model
-  4. Optional parameter filtering is applied
+  3. Results are reranked using the reranker model.
+  4. Optional parameter filtering is applied (if given)
   5. Top results are returned based on relevance
 </Accordion>
 
@@ -78,7 +78,7 @@ icon: circle-question
 </Accordion>
 
 <Accordion title="What happens when I exceed limits?">
-  When you exceed usage limits, you'll receive a `429 Too Many Requests` response with details about:
+  When you exceed usage limits, you'll receive a `429` response with details about:
   - Which limit was exceeded (search or add)
   - Current usage vs limit
   - Message indicating upgrade options (for free tier)
@@ -94,28 +94,14 @@ icon: circle-question
 <Accordion title="What is the base URL?">
   All API requests should be made to:
   ```
-  https://asimov.mov/api
+  https://api.asimov.mov
   ```
 </Accordion>
 
-<Accordion title="What HTTP methods are supported?">
-  - `POST` - Create new resources (add content, search)
-</Accordion>
 
-<Accordion title="What formats are supported?">
-  All requests and responses use JSON format. The `Content-Type` header should be set to `application/json` for POST/PUT requests.
-</Accordion>
 
-<Accordion title="How do I handle errors?">
-  Errors are returned as JSON with an `error` field. Common status codes:
-  - `400` - Bad Request (invalid input)
-  - `401` - Unauthorized (missing/invalid auth)
-  - `404` - Not Found
-  - `429` - Too Many Requests (usage limit exceeded)
-  - `500` - Internal Server Error
 
-  Check the `details` field for additional information.
-</Accordion>
+
 </AccordionGroup>
 
 ## Billing & Subscription
@@ -135,7 +121,7 @@ icon: circle-question
 </Accordion>
 
 <Accordion title="Can I upgrade or downgrade my plan?">
-  Yes! You can change your subscription plan at any time from your account settings or the [pricing page](https://asimov.mov/pricing). Changes take effect immediately.
+  Yes! You can change your subscription plan at any time from your account settings or the [pricing page](https://asimov.mov/pricing). Changes take effect once the current subscription is over.
 </Accordion>
 </AccordionGroup>
 
@@ -162,17 +148,8 @@ icon: circle-question
   Check the API reference for required fields and formats.
 </Accordion>
 
-<Accordion title="Search results are not relevant">
-  Tips to improve relevance:
-  - Use more specific queries
-  - Utilize metadata parameters to filter results
-  - Ensure your content is well-structured
-  - Consider using the `recall` parameter to retrieve more candidates before filtering
-</Accordion>
 
-<Accordion title="How do I delete old content?">
-  Currently, content deletion is not available through the API. Contact support at [hamza@asimov.mov](mailto:hamza@asimov.mov) for assistance with content management.
-</Accordion>
+
 </AccordionGroup>
 
 ## Still need help?

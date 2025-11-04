@@ -48,8 +48,8 @@
             "openapi": "api-reference/openapi.json",
             "pages": [
               "api-reference/introduction",
-              "POST /api/add",
-              "POST /api/search"
+              "POST /add",
+              "POST /search"
             ]
           },
           {

@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://asimov.mov",
+      "url": "https://api.asimov.mov",
       "description": "Production API"
     }
   ],
@@ -26,11 +26,11 @@
     }
   ],
   "paths": {
-    "/api/add": {
+    "/add": {
       "post": {
         "tags": ["Content"],
         "summary": "Add content",
-        "description": "Adds content to your knowledge base. The content is automatically chunked, embedded, and stored in MongoDB. Supports optional metadata parameters for filtering.",
+        "description": "Adds content to your knowledge base. ",
         "operationId": "addContent",
         "requestBody": {
           "required": true,
@@ -159,11 +159,11 @@
         }
       }
     },
-    "/api/search": {
+    "/search": {
       "post": {
         "tags": ["Content"],
         "summary": "Search content",
-        "description": "Performs semantic search across your knowledge base using vector embeddings. Results are reranked for relevance.",
+        "description": "Performs search across your knowledge base.",
         "operationId": "searchContent",
         "requestBody": {
           "required": true,
@@ -339,7 +339,7 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
-        "description": "Use your API key (prefixed with 'asmv-'). Format: 'Bearer YOUR_API_KEY'"
+        "description": "Use your API Key"
       }
     }
   }
