@@ -1,3 +1,16 @@
+/* Import Geist font */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Apply Geist font globally */
+* {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+/* Make title font light */
+h1 {
+  font-weight: 300 !important;
+}
+
 /* Remove grey background from custom icons */
 .nav-icon {
   background: transparent !important;
@@ -17,67 +30,6 @@
   background: transparent !important;
 }
 
-/* Make API method pills (POST buttons) white */
-.method-pill {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.method-pill svg {
-  color: #000000 !important;
-  fill: #000000 !important;
-}
-
-/* Make API playground buttons white */
-.api-playground button,
-.api-playground input[type="button"],
-.api-playground input[type="submit"],
-.api-playground [role="button"] {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-/* Make icons inside buttons black (for contrast on white background) */
-.api-playground button svg,
-.api-playground [role="button"] svg,
-button svg {
-  color: #000000 !important;
-  fill: #000000 !important;
-  stroke: #000000 !important;
-}
-
-/* Make API section buttons white */
-.api-section button,
-.api-section .method-pill {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.api-section button svg {
-  color: #000000 !important;
-  fill: #000000 !important;
-}
-
-/* Target all buttons in dark mode to ensure white background */
-.dark .method-pill,
-.dark .api-playground button,
-.dark .api-section button {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.dark .method-pill svg,
-.dark .api-playground button svg,
-.dark .api-section button svg {
-  color: #000000 !important;
-  fill: #000000 !important;
-  stroke: #000000 !important;
-}
-
 /* Make document images have rounded corners */
 .content img,
 .content-area img,
@@ -94,3 +46,38 @@ main img {
   overflow: hidden;
 }
 
+/* Footer logo injection */
+footer {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  padding-left: 280px !important;
+  border-top: 1px solid #363636 !important;
+}
+
+
+footer > * {
+  order: 1;
+}
+
+.powered-by,
+footer [data-testid="mintlify-powered"],
+footer a[aria-label*="Mintlify"],
+footer a[title*="Mintlify"],
+footer a[href*="mintlify.com"]:last-child {
+  display: none !important;
+}
+
+/* SDK Cards with Grayscaled Logos - Target by href */
+a[href="/sdk/python"] {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+
+/* Ensure card content is above the logo */
+a[href="/sdk/python"] > *,
+a[href="/sdk/typescript"] > * {
+  position: relative;
+  z-index: 1;
+}

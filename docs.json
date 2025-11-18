@@ -34,36 +34,52 @@
   "navigation": {
     "tabs": [
       {
+        "tab": "Welcome",
+        "icon": "square",
+        "pages": [
+          "welcome"
+        ]
+      },
+      {
         "tab": "Documentation",
+        "icon": "book",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Console",
             "pages": [
               "main",
-              "quickstart"
-            ]
-          },
-          {
-            "group": "API Reference",
-            "openapi": "api-reference/openapi.json",
-            "pages": [
-              "api-reference/introduction",
-              "POST /add",
-              "POST /search"
-            ]
-          },
-          {
-            "group": "Features",
-            "pages": [
-              "features/parameters"
-            ]
-          },
-          {
-            "group": "Support",
-            "pages": [
-              "faq"
+              "api",
+              "graph"
             ]
           }
+      
+         
+       
+        ]
+      },
+      {
+        "tab": "SDKs",
+        "icon": "code",
+        
+        "groups": [
+
+          {
+            "group": "Introduction",
+            "pages": [
+              "sdk/overview"
+            ]
+          },
+          
+          {
+            "group": "Lithio SDKs",
+            "pages": [
+              "sdk/python",
+              "sdk/typescript"
+            ]
+          }
+
+          
+
         ]
       }
     ],
@@ -71,30 +87,30 @@
       "anchors": [
         {
           "anchor": "Dashboard",
-          "href": "https://asimov.mov/dashboard",
+          "href": "https://console.lithio.dev",
           "icon": "home"
         },
         {
           "anchor": "Email",
-          "href": "mailto:hamza@asimov.mov",
+          "href": "mailto:hello@lithio.dev",
           "icon": "envelope"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/asimov-text-black.png",
-    "dark": "/logo/asimov-text-white.png",
+    "light": "/logo/lithio-docs-logo-black.png",
+    "dark": "/logo/lithio-docs-logo-white.png",
     "dimensions": {
-      "width": 100,
-      "height": 100
+      "width": 1000,
+      "height": 1000
     }
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hamza@asimov.mov"
+        "href": "mailto:hello@lithio.dev"
       }
     ],
     "primary": {
@@ -116,8 +132,44 @@
   },
   "footer": {
     "socials": {
-      "linkedin": "https://linkedin.com/company/asimov-mov",
-      "x": "https://x.com/ai_asimov"
-    }
+      "x": "https://x.com/lithioai"
+    },
+    "links": [
+      {
+        "header": "Product",
+        "items": [
+          {
+            "label": "Features",
+            "href": "https://lithio.dev/features"
+          },
+          {
+            "label": "Pricing",
+            "href": "https://lithio.dev/pricing"
+          },
+          {
+            "label": "About",
+            "href": "https://lithio.dev/about"
+          }
+        ]
+      },
+      {
+        "header": "Company",
+        "items": [
+          {
+            "label": "FAQs",
+            "href": "https://lithio.dev/faq"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "https://lithio.dev/privacy"
+          },
+          {
+            "label": "Terms of Service",
+            "href": "https://lithio.dev/tos"
+          }
+      
+        ]
+      }
+    ]
   }
 }

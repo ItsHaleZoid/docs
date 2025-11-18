@@ -1,0 +1,124 @@
+---
+title: "Python SDK"
+description: "The official Python SDK of Lithio for adding and searching memories and facts."
+icon: "python"
+---
+
+
+
+## Installation
+
+Install the Lithio Python SDK using pip:
+
+```bash
+pip install lithio-sdk
+```
+
+
+
+## Quick Start
+
+Get started with the Lithio Python SDK in three simple steps:
+
+<Steps>
+  <Step title="Install the SDK">
+    Install the Lithio Python SDK using pip:
+    
+    ```bash
+    pip install lithio-sdk
+    ```
+  </Step>
+  <Step title="Initialize the Client">
+    Create a client instance with your API key:
+    
+    ```python
+    from lithio import Client
+    
+    lithio = Client()
+    ```
+  </Step>
+  <Step title="Add and Search">
+    Start adding queries and searching memories:
+    
+    ```python
+    # Add a query
+    response = lithio.add(
+        query="This is an example query",
+        space="my-space"
+        
+    )
+    
+    # Search for results
+    results = lithio.search(
+        query="search query",
+        limit=10
+    )
+    ```
+  </Step>
+</Steps>
+
+## Core Functions
+
+### 1. Add a Query
+
+Add a query to extract memory entities, facts, and relations from your content.
+
+**Parameters:**
+- `query` (str): The query through which memory entities would be extracted.
+- `space` (str, optional): Optional space identifier for separating memories.
+- `properties` (dict, optional): Optional properties for filtering the memories from a specific parameter.
+
+
+
+**Example:**
+```python
+response = client.add(
+    query="I love machine learning and have been learning it since 2020.",
+    space="personal",
+    properties={"interest": "machine-learning"}
+)
+```
+
+### 2. Search Memories
+
+Search through your stored memories using semantic search.
+
+**Parameters:**
+- `query` (str): The search query string
+- `limit` (int, optional): Maximum number of results (default: 5)
+- `space` (str, optional): Optional space identifier
+- `properties` (dict, optional): Optional properties (merged with client defaults)
+
+
+**Example:**
+```python
+results = client.search(
+    query="what does he love?",
+    limit=10,
+    space="personal"
+)
+```
+
+## Configuration
+
+<Tabs>
+  <Tab title="API Key">
+    You can set the API key via the `LITHIO_API_KEY` environment variable:
+    
+    ```bash
+    export LITHIO_API_KEY=your-api-key
+    ```
+    
+    ```python
+    from lithio import Client
+    
+    # automatically uses LITHIO_API_KEY from environment
+    client = Client()
+    ```
+
+  </Tab>
+ 
+</Tabs>
+
+
+

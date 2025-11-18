@@ -1,0 +1,125 @@
+---
+title: "TypeScript/Javascript SDK"
+description: "The official TypeScript/Node.js SDK of Lithio for adding and searching memories and facts."
+icon: "npm"
+---
+
+## Installation
+
+Install the Lithio SDK using npm:
+
+```bash
+npm install lithio
+```
+
+Or using yarn:
+
+```bash
+yarn add lithio
+```
+
+Or using pnpm:
+
+```bash
+pnpm add lithio
+```
+
+## Quick Start
+
+Get started with the Lithio TypeScript/Node.js SDK in three simple steps:
+
+<Steps>
+  <Step title="Install the SDK">
+    Install the Lithio SDK using npm:
+    
+    ```bash
+    npm install lithio
+    ```
+  </Step>
+  <Step title="Initialize the Client">
+    Create a client instance:
+    
+    ```typescript
+    import { Lithio } from 'lithio';
+    
+    const lithio = new Lithio();
+    ```
+  </Step>
+  <Step title="Add and Search">
+    Start adding queries and searching memories:
+    
+    ```typescript
+    // Add a query
+    const response = await lithio.add({
+        query: "This is an example query",
+        space: "my-space"
+    });
+    
+    // Search for results
+    const results = await lithio.search({
+        query: "search query",
+        limit: 10
+    });
+    ```
+  </Step>
+</Steps>
+
+## Core Functions
+
+### 1. Add a Query
+
+Add a query to extract memory entities, facts, and relations from your content.
+
+**Parameters:**
+- `query` (string): The query through which memory entities would be extracted.
+- `space` (string, optional): Optional space identifier for separating memories.
+- `properties` (object, optional): Optional properties for filtering the memories from a specific parameter.
+
+**Example:**
+```typescript
+const response = await lithio.add({
+    query: "I love machine learning and have been learning it since 2020.",
+    space: "personal",
+    properties: { interest: "machine-learning" }
+});
+```
+
+### 2. Search Memories
+
+Search through your stored memories using semantic search.
+
+**Parameters:**
+- `query` (string): The search query string
+- `limit` (number, optional): Maximum number of results (default: 5)
+- `space` (string, optional): Optional space identifier
+- `properties` (object, optional): Optional properties (merged with client defaults)
+
+**Example:**
+```typescript
+const results = await lithio.search({
+    query: "what does he love?",
+    limit: 10,
+    space: "personal"
+});
+```
+
+## Configuration
+
+<Tabs>
+  <Tab title="API Key">
+    You can set the API key via the `LITHIO_API_KEY` environment variable:
+    
+    ```bash
+    export LITHIO_API_KEY=your-api-key
+    ```
+    
+    ```typescript
+    import { Lithio } from 'lithio';
+    
+    // automatically uses LITHIO_API_KEY from environment
+    const lithio = new Lithio();
+    ```
+
+  </Tab>
+ 
+</Tabs>
