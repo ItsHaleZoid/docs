@@ -92,7 +92,7 @@
         },
         {
           "anchor": "Email",
-          "href": "mailto:hello@lithio.dev",
+          "href": "mailto:support@lithio.dev",
           "icon": "envelope"
         }
       ]
@@ -110,13 +110,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hello@lithio.dev"
+        "href": "mailto:support@lithio.dev"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://asimov.mov/dashboard"
+      "href": "https://lithio.dev/dashboard"
     }
   },
   "contextual": {
